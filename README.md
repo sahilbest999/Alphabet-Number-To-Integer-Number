@@ -6,7 +6,7 @@ and it's case sensitive
 
 # Examples:
 
-if you Enter "one" then it will return \b 1 \
+if you Enter "one" then it will return \\b 1 \
 if you Enter "twenty" then it will return 20 \
 if you Enter "two hundred forty-six" then it will return 246 \
 if you Enter "seven hundred eighty-three thousand nine hundred and nineteen" then it will return 783919 \
