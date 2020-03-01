@@ -1,24 +1,57 @@
+
 import java.util.*;
 
-class Parser {
 
+class Parser {
+static int t_length=1;
  public static List<String> splitThem(String str)
   {
-    List<String> words = Arrays.asList(str.replace(" and "," ").split("( )+"));
-    StringBuilder sb = new StringBuilder();
-       
-       for(int i = 0;i<words.size() - 1;i++)
+    String words[] = str.replace(" and "," ").split("( )+");
+    ArrayList<String> s_words = new ArrayList<String>();
+    int highest_inx=-1,size_added=0;
+    String highest="none";
+    
+       for(int i = 0;i<words.length-1;i++)
        {
-         if(!(words.get(i+1).equals("hundred") || words.get(i+1).equals("thousand") ||words.get(i+1).equals("million")))
-         sb.append(words.get(i)+"+");
+         s_words.add(words[i]);
+         if(!(words[i+1].equals("hundred") || words[i+1].equals("thousand") ||words[i+1].equals("million")))
+         s_words.add("+");
          else
-         sb.append(words.get(i)+"*");
+         s_words.add("*");
        }
-       
-       sb.append(words.get(words.size()-1));
-       return new ArrayList<String>( Arrays.asList(sb.toString().replace("*"," * ").replace("+"," + ").split(" ")));
+       s_words.add(words[words.length - 1]);       
+      
+       if(s_words.contains("million") && (s_words.contains("hundred") || s_words.contains("thousand")))
+        {
+           highest="million";
+           highest_inx=s_words.indexOf("million");
+        }
+              
+          else if(s_words.contains("thousand")  && s_words.contains("hundred"))
+        {
+            highest="thousand";
+            highest_inx=s_words.indexOf("thousand");
+        }
+    
+    if(highest_inx!=-1)
+            {
+                for(int i = 0;i<s_words.size();i++)
+                {
+                    if((s_words.get(i).equals("hundred") || s_words.get(i).equals("thousand") || s_words.get(i).equals("million")) && i<=highest_inx)
+                        {
+                            s_words.add(1,s_words.get(i));
+                            s_words.add(1,"*");
+                            size_added+=4;
+                            highest_inx+=2;
+                            i=i+size_added;
+                        }
+                }
+            }
+    
+    System.out.println(s_words);
+       return s_words;
   }
-
+  
   public static String con_cal(String words)
   {
       if(words.contains("-"))
@@ -167,7 +200,7 @@ public static int parseInt(String str)
         
        int num=1,ADD=0;
        List<String> words = splitThem(str);
-       List<String> temp = words;
+       
    
    for(int i = 0;i<words.size();i++)  // TRY TO CHANGE CONDITION i<words.size() TO i<words.size()-1 TO FIX THE PROBLEM
    {
@@ -182,6 +215,7 @@ public static int parseInt(String str)
        words.remove(i-1);
        words.add(i-1,Integer.toString(num));
        num=1;
+       i=0;
        continue;
        }
        
