@@ -1,23 +1,22 @@
 import java.util.*;
 
-
 class Parser {
 
-  public static List<String> splitThem(String str)
+ public static List<String> splitThem(String str)
   {
-    String words[] =str.replace(" and "," ").split("( )+");
-    ArrayList<String> temp = new ArrayList<String>();
+    List<String> words = Arrays.asList(str.replace(" and "," ").split("( )+"));
+    StringBuilder sb = new StringBuilder();
        
-       for(int i = 0;i<words.length - 1;i++)
+       for(int i = 0;i<words.size() - 1;i++)
        {
-         temp.add(words[i]);
-         if(!(words[i+1].equals("hundred") || words[i+1].equals("thousand") ||words[i+1].equals("million")))
-         temp.add("+");
+         if(!(words.get(i+1).equals("hundred") || words.get(i+1).equals("thousand") ||words.get(i+1).equals("million")))
+         sb.append(words.get(i)+"+");
          else
-         temp.add("*");
+         sb.append(words.get(i)+"*");
        }
- 
-       return temp;
+       
+       sb.append(words.get(words.size()-1));
+       return new ArrayList<String>( Arrays.asList(sb.toString().replace("*"," * ").replace("+"," + ").split(" ")));
   }
 
   public static String con_cal(String words)
