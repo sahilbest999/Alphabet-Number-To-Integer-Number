@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 class Parser {
 static int t_length=1;
  public static List<String> splitThem(String str)
@@ -10,6 +9,7 @@ static int t_length=1;
     int highest_inx=-1,size_added=0;
     String highest="none";
     
+      try{
        for(int i = 0;i<words.length-1;i++)
        {
          s_words.add(words[i]);
@@ -31,7 +31,7 @@ static int t_length=1;
         }
         else if(s_words.contains("thousand")  && s_words.contains("hundred"))
         {
-            if(s_words.indexOf("hundred")<s_words.indexOf("thousand"))
+            if( (s_words.indexOf("hundred") < s_words.indexOf("thousand")) && !(s_words.get(s_words.indexOf("thousand")-2).equals("hundred")))
             {
                 highest="thousand";
                 highest_inx=s_words.indexOf("thousand");
@@ -42,16 +42,16 @@ static int t_length=1;
             {
                 for(int i = 0;i<s_words.size();i++)
                 {
-
-                     if((s_words.get(i).equals("hundred") || s_words.get(i).equals("thousand") || s_words.get(i).equals("million")))
+                    if((s_words.get(i).equals("hundred") || s_words.get(i).equals("thousand") || s_words.get(i).equals("million")))
                         {
                             s_words.add(1,highest);
                             s_words.add(1,"*");
                             break;
                         }
                 }
-            }
-         
+            }}
+      catch(Exception e){}
+        
        return s_words;
   }
   
@@ -122,7 +122,7 @@ static int t_length=1;
          return  "70";
          case "eighty":
          return  "80"; 
-         case "ninty":
+         case "ninety":
          return  "90";
          case "hundred":
          return  "100";
@@ -215,7 +215,7 @@ public class Temp {
             int your_ans=Parser.parseInt(str);
             
             System.out.println("it's correct? - "+(your_ans==ans));
-            if(Parser.parseInt(str)!=ans)
+            if(your_ans!=ans)
                 System.out.println("Your Answer = "+your_ans);
         }
         catch(Exception e)
@@ -223,7 +223,8 @@ public class Temp {
     }
     
     public static void main(String[] args){
-        
+     
+     // EXAMPLES 
         parse_str("one",1);
         parse_str("twenty",20);
         parse_str("two hundred forty-six",246);
@@ -232,5 +233,6 @@ public class Temp {
         parse_str("hundred-ninty",190);
         parse_str("two million seventy-three",2000073);
         parse_str("two thousand four-hundred and eighty-six",2486);
+        parse_str("seven hundred thousand",700000);
     }
 }
