@@ -2,7 +2,7 @@
 
 This Code is Written in Java and can Convert Alphabetic Number to Integer Number 
 it can convert number upto 1 million
-and it's case sensitive
+and it's case sensitive while entering the data
 
 # Examples:
 
